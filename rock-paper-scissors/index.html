@@ -7,7 +7,95 @@
 </head>
 <body>
     <script>
-        console.log("HELLO")
+        // Create a rock paper scissors program.
+        // Opponent is the computer, so create getComputerChoice function for opponent choice
+        
+        // Create an array for rock, paper, and scissors & assign a variable.
+        let outcomes = ["rock", "paper", "scissors"];
+        
+        // listed outside of functions for multiple reference
+        
+        let comp_choice = getComputerChoice(outcomes);
+        // Allows function to be nested within the playGame function under a var
+        
+        let player_choice = playerSelection(outcomes);
+
+        playGame(player_choice, comp_choice);
+        
+        
+
+        
+        
+        function getComputerChoice(outcomes){
+            //Create random function to scramble array
+            let selectRandom = Math.floor(Math.random() * (3));
+            // Math.random() randomizes a decimal 0< & <1. 
+            // len of outocomes is 0, 1, 2. 
+            // However, 3 is used because Math.floor rounds DOWN, so outputs are random range 0,2
+            
+            const comp_choice = outcomes[selectRandom];
+            
+            // outcomes[selectRandom] places the random int as the indicator
+            //of the array "outcomes"
+
+            return comp_choice;
+            
+            //assign variable value to first in array cue.
+            //Return variable
+        }
+
+        // Create a function called playerSelection
+        function playerSelection(outcomes){
+            let player_select = 1
+            while (player_select != outcomes){
+                let player_select = prompt("Choose Rock, Paper, or Scissors").toLowerCase();
+                // Create  conditional that checks that selection in outcomes array
+                if (outcomes.includes(player_select)){
+                    
+                    console.log(`You've selected "${player_select}".`)
+                    //Notifies user of their choice
+
+                    return player_select;
+                    // Return breaks While loop
+                }
+
+                // Create conditional that handles invalid entries w/ window alert
+                else{
+                    alert("Invalid Entry. Try again by entering either rock, paper, or scissors.");
+
+                } ; 
+            }
+           
+        }
+
+        //Create playGame function that accounts for 2 player selection vars
+        
+        function playGame(player_select , comp_select){
+
+            console.log(`Computer selected "${comp_select}".`)
+            // Informs player of computer selection.
+           
+            //Handle ties, where player and comp select the same outcome
+            
+            if (player_select === comp_select){
+                let winner = `Tie! you both selected ${player_select}.`
+                console.log(winner)
+                //accounts for 3 tied outcomes.
+                //user prompt references select1 because they're the same.
+            }
+            
+            //Create parameters for win/lose focusing statements toward player NOT Computer.
+           
+            else if( (player_select == "scissors" && comp_select == "paper") || (player_select == "rock" && comp_select == "scissors") || (player_select == "paper" && comp_select == "rock")){
+                console.log(`You win: ${player_select} beats ${comp_select}.`)
+            }
+            
+            else{
+                console.log(`You lose: ${comp_select} beats ${player_select}.`)
+            }
+
+        }
+        
     </script>
 </body>
 </html>
