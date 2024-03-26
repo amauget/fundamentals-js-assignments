@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RPS</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h2>Welcome to Rock Paper Scissors: Best Out of 5!</h2>
     <p id='score'>Player: Computer:</p>
-    <p id="buttonContainer">
+    <div id="buttonContainer">
         <button id='rock'>Rock</button>
         <button id='paper'>Paper</button>
         <button id='scissors'>Scissors</button>
         
-    </p>
+    </div>
     <p id="gameWrapper"></p>
     
 
@@ -24,115 +25,117 @@
         add a div for displaying the results and change all console.log's to DOM Methods.
         Display the Running score and announce a winner of the game once the a player reaches 5 wins.
         HINT: Old code will likely have to be reworked to function. -->
-    <script>
-        
-        //computational variables
-        let outcomes = ["rock", "paper", "scissors"];
-        let score = [0,0];
-        let currentRound = 0;
-        let playerChoice = ''
+        <script>
+            //HTML positional variables:
+            let playerSelect = document.querySelector("#buttonContainer");
+            let gameCount = document.querySelector("#score");
 
-
-        
-        //HTML positional variables:
-        let playerSelect = document.querySelector("#buttonContainer");
-        
-        let gameCount = document.querySelector("#score");
-       
-
-        
-        
-
-        
-        
-
-        playerSelect.addEventListener('click', (playerChoice) =>{
+            let gameWrapper = document.querySelector("#gameWrapper");
             
-            let target = event.target;
-            switch(target.id){
-                case 'rock':
-                    playerChoice = outcomes[0];
-                    break;
-                   
-                case 'paper':
-                    playerChoice = outcomes[1];
-                    break 
-
-                case 'scissors':
-                    playerChoice = outcomes[2];
-                    break;
-                
-            }
-
-        let compChoice = getComputerChoice(outcomes)
-        playGame(playerChoice, compChoice, score)
-        
-        function getComputerChoice(outcomes){
-            let selectRandom = Math.floor(Math.random() * (3));
-            
-            const compChoice = outcomes[selectRandom];
-            
-            // outcomes[selectRandom] places the random int as the indicator
-            //of the array "outcomes"
-
-            return compChoice;
-            
-            //assign variable value to first in array cue.
-            //Return variable
-        }
-
-        function playGame(player_select , comp_select, score){
+            //Created Elements
+            let roundList = document.createElement("ol")
+            gameWrapper.appendChild(roundList);        
+            let roundCounter = document.createElement("li")
+    
+            let result = document.createElement('p')
+            result.textContent = '';
+    
+            gameWrapper.appendChild(result);
+    
            
-            
-            // console.log(`Computer selected "${comp_select}".`)
-            
-          
-            if(score[0]<5 && score[1]<5){
-                if (player_select === comp_select){
-                    console.log('tie')
+            //computational variables
+            let outcomes = ["rock", "paper", "scissors"];
+            let score = [0,0];
+            let round = 0
+            let playerChoice = ''
+
+            playerSelect.addEventListener('click', (playerChoice) =>{
+                round++
+                roundCounter.textContent = `Round: ${round}`;
+                gameWrapper.appendChild(roundCounter);
+                let target = event.target;
+                switch(target.id){
+                    case 'rock':
+                        playerChoice = outcomes[0];
+                        break;
+                       
+                    case 'paper':
+                        playerChoice = outcomes[1];
+                        break 
+    
+                    case 'scissors':
+                        playerChoice = outcomes[2];
+                        break;
+                    default:
+                        return false;
+                        //handles button container clicks that aren't in the 3 buttons.
+                        
                     
                 }
-
-                //Create parameters for win/lose focusing statements toward player NOT Computer.
-
-                else if( (player_select == "scissors" && comp_select == "paper") || (player_select == "rock" && comp_select == "scissors") || (player_select == "paper" && comp_select == "rock")){
-                    score[0] += 1;
-                    console.log("player win")
-                }
-
-                else{
-                    score[1] += 1;
-                    console.log("computer win")
-                }
-                gameCount.textContent = `Player:${score[0]} Computer:${score[1]}`
-                return score;
-                }  
+                let compChoice = getComputerChoice(outcomes)
+                playGame(playerChoice, compChoice, score)
+    
+            })
+    
+            function getComputerChoice(outcomes){
+                let selectRandom = Math.floor(Math.random() * (3));
+                
+                const compChoice = outcomes[selectRandom];
+                return compChoice;
             }
-            if(score[0] === 5){
-                console.log("Player wins the game!")
-            }
-            if(score[1] ===5){
-                console.log("Computer wins the game!")
-            }
-            
-        
-        })
-        
-        
+    
+            function playGame(player_select , comp_select, score){
+                let roundContent = document.createElement('li');
+                roundContent.className = 'roundContent' //designate a class to created element.
+                                     
+                if(score[0]<5 && score[1]<5){
+                    
+                    if (player_select === comp_select){
+                        roundContent.textContent = ` ${comp_select.charAt(0).toUpperCase() + comp_select.slice(1)} and ${player_select} is a tie.`;
+                        roundList.appendChild(roundContent)
+                        
+                    }
+    
+                    //Decides if player wins
+    
+                    else if( (player_select == "scissors" && comp_select == "paper") || (player_select == "rock" && comp_select == "scissors") || (player_select == "paper" && comp_select == "rock")){
+                        score[0] += 1;
+                        roundContent.textContent = `${player_select.charAt(0).toUpperCase() + player_select.slice(1)} beats ${comp_select}. Player wins round!`
+                                                            //Gives player selection a capital first letter for grammar
+                        roundList.appendChild(roundContent)
+                        
+                    }
+    
+                    else{ //computer wins
+                        score[1] += 1;
+                        roundContent.textContent = ` ${comp_select.charAt(0).toUpperCase() + comp_select.slice(1)} beats ${player_select}. Computer wins round!`;
+                        
+                        roundList.appendChild(roundContent)
+                        
+                        
+                    }
+                    
 
-       
-        
-        
 
+                    if(score[0] === 5){
+                        result.textContent = `You won the game ${score[0]} to ${score[1]}!!`
+                    }
+                    if (score[1] ===5){ 
+                        result.textContent = `The computer wins the game  ${score[1]} to ${score[0]}.`
+                    }
+
+                    gameCount.textContent = `Player:${score[0]} Computer:${score[1]}`;
+                    //NOTE! BREAK APART GAME COUNT TO BETTER SPACE THE TWO SCORES.
+                    return score;
+
+                    } 
+                
+                
+                
+                
+                
+            }
+        </script>
         
-        
-   
-        
-      
-      
-        
-        
-        
-    </script>
-</body>
+    </body>
 </html>
