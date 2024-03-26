@@ -1,0 +1,94 @@
+/* //HTML positional variables:
+            let playerSelect = document.querySelector("#buttonContainer");
+            let gameCount = document.querySelector("#score");
+            
+            let gameWrapper = document.querySelector("#gameWrapper");
+            
+            //Created Elements
+            let roundList = document.createElement("ol")
+            gameWrapper.appendChild(roundList);        
+            let roundCounter = document.createElement("li")
+    
+            let result = document.createElement('p')
+            result.textContent = '';
+    
+            gameWrapper.appendChild(result); */
+body{
+display:flex;
+flex-direction: column;
+align-items: center;
+background-color:darkgray;
+
+}
+
+h2{
+    font-size: xx-large;
+
+}
+
+.roundContentContainer{
+    font-size: medium;
+    display:flex;
+    justify-content: left;
+    gap: 150px;
+    margin-right: 220px;
+    margin-bottom: -30px;
+  
+}
+.scoreContainer{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 200px;
+    background-color:rgba(220, 243, 9, 0.788);
+    height:50px;
+    width: 700px;
+    border: solid 2px black;
+    border-radius: 10px;
+
+}
+#computerScore, #playerScore{
+    font-weight: bolder;
+    font-size: large;
+    padding: 20px;
+}
+
+
+
+#buttonContainer #rock, #paper, #scissors{
+    width: 150px;
+    height:auto;
+    border-radius: 30px;
+    margin:20px;
+}
+
+ol{
+    background-color: white;
+    border:solid black 1px;
+    height: 700px;
+    width: 500px;
+    border-radius: 10px;
+    text-align: left;
+
+}
+li{
+    padding: 7px;
+    font-weight: bold;
+    font-size: medium;
+}
+
+li::before{
+    content:'';
+    padding-right: 100px;
+    padding-left: 20px;
+    /* creates gap between number and outcome */
+}
+
+#gameWrapper{
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+

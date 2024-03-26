@@ -7,14 +7,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- <img class="backround" src="https://s.yimg.com/ny/api/res/1.2/3bclM_cAhmXWxkLC4P51Nw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTc2MDtoPTMwOQ--/https://media.zenfs.com/en-US/homerun/mic_26/cf84e8d6ba00819f3f6ac561c66f5b80"> -->
     <h2>Welcome to Rock Paper Scissors: Best Out of 5!</h2>
-    <p id='score'>Player: Computer:</p>
     <div id="buttonContainer">
-        <button id='rock'>Rock</button>
-        <button id='paper'>Paper</button>
-        <button id='scissors'>Scissors</button>
+        <input type="image" id='rock' src="https://plus.unsplash.com/premium_photo-1671379456866-57e60cf76bb7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHJvY2t8ZW58MHx8MHx8fDA%3D"/>
+        <input type="image" id='paper' src="https://images.unsplash.com/photo-1623305465231-d884ce752d59?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+        <input type="image" id='scissors' src="https://images.unsplash.com/photo-1498755109167-89327eaebb20?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
         
     </div>
+    <div class="scoreContainer">
+        <p id='playerScore'>Player Score:</p><p id="computerScore"> Computer Score:</p>
+    </div>
+
+    <div class='roundContentContainer'>
+    
+        <h3 id='round'>Round:</h3> <h3 id="outcome">Outcome</h3>
+    </div>
+
     <p id="gameWrapper"></p>
     
 
@@ -28,16 +37,18 @@
         <script>
             //HTML positional variables:
             let playerSelect = document.querySelector("#buttonContainer");
-            let gameCount = document.querySelector("#score");
-
+            let playerScore = document.querySelector("#playerScore");
+            let compScore = document.querySelector("#computerScore");
             let gameWrapper = document.querySelector("#gameWrapper");
             
+
             //Created Elements
             let roundList = document.createElement("ol")
             gameWrapper.appendChild(roundList);        
-            let roundCounter = document.createElement("li")
     
             let result = document.createElement('p')
+            result.className = ("result");
+            
             result.textContent = '';
     
             gameWrapper.appendChild(result);
@@ -50,9 +61,8 @@
             let playerChoice = ''
 
             playerSelect.addEventListener('click', (playerChoice) =>{
-                round++
-                roundCounter.textContent = `Round: ${round}`;
-                gameWrapper.appendChild(roundCounter);
+                
+                
                 let target = event.target;
                 switch(target.id){
                     case 'rock':
@@ -87,53 +97,43 @@
             function playGame(player_select , comp_select, score){
                 let roundContent = document.createElement('li');
                 roundContent.className = 'roundContent' //designate a class to created element.
+
+                //roundContent must be created/appended within function. This way it creates and appends every time the function is called.
                                      
                 if(score[0]<5 && score[1]<5){
                     
                     if (player_select === comp_select){
                         roundContent.textContent = ` ${comp_select.charAt(0).toUpperCase() + comp_select.slice(1)} and ${player_select} is a tie.`;
                         roundList.appendChild(roundContent)
-                        
                     }
-    
                     //Decides if player wins
-    
                     else if( (player_select == "scissors" && comp_select == "paper") || (player_select == "rock" && comp_select == "scissors") || (player_select == "paper" && comp_select == "rock")){
                         score[0] += 1;
                         roundContent.textContent = `${player_select.charAt(0).toUpperCase() + player_select.slice(1)} beats ${comp_select}. Player wins round!`
                                                             //Gives player selection a capital first letter for grammar
                         roundList.appendChild(roundContent)
-                        
                     }
-    
                     else{ //computer wins
                         score[1] += 1;
                         roundContent.textContent = ` ${comp_select.charAt(0).toUpperCase() + comp_select.slice(1)} beats ${player_select}. Computer wins round!`;
                         
                         roundList.appendChild(roundContent)
-                        
-                        
                     }
-                    
-
 
                     if(score[0] === 5){
-                        result.textContent = `You won the game ${score[0]} to ${score[1]}!!`
+                        result.textContent = `You won the game ${score[0]} to ${score[1]}!!`;
+                        result.setAttribute('style','background: green;font-size: x-large; font-weight:bold;height:35px; border-radius:15px; order:-1')
+                        //if player wins, result background green, else red.
                     }
                     if (score[1] ===5){ 
                         result.textContent = `The computer wins the game  ${score[1]} to ${score[0]}.`
+                        result.setAttribute('style','background: red;font-size: x-large; font-weight:bold;height:35px; border-radius:15px; order:-1')
                     }
-
-                    gameCount.textContent = `Player:${score[0]} Computer:${score[1]}`;
+                    playerScore.textContent = `Player Score:${score[0]}`;
+                    compScore.textContent = `Computer Score:${score[1]}`;
                     //NOTE! BREAK APART GAME COUNT TO BETTER SPACE THE TWO SCORES.
                     return score;
-
                     } 
-                
-                
-                
-                
-                
             }
         </script>
         
